@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="build/css/normalize.css">
+    <link rel="stylesheet" href="build/css/app.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet'/>
+    <title>Document</title>
+</head>
+<body>
+    <div class="contenedor-todo">
+        
+        <select id="paises" class="select">
+            <option value="">Seleccionar País</option>
+        </select>
+        
+        <div class="contenedor">
+            <div class="info-nombre info">
+                <h3>Datos de covid en:</h3>
+            </div>
+            <div class="info-confir info">
+                <h3>Confirmados:</h3>
+            </div>
+            <div class="info-muertes info">
+                <h3>Fallecidos:</h3>
+            </div>
+            <div class="info-recuperados info">
+                <h3>Recuperados:</h3>
+            </div>
+        </div>
+        
+        <div class="mapa_contenedor separador">
+            <h3>Mapa con datos sobre el Covid-19</h3>
+            <div class="contenedor_mapa">
+                <div id='map' class="map"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <script src="build/js/bundle.js"></script>
+</body>
+</html>
