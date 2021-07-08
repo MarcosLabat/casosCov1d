@@ -14,6 +14,7 @@ const pais = {
     region: '',
 }
 
+//FUNCION PARA QUE CUANDO ELIJAN UN PAÍS SE MUESTREN LOS DATOS
 const leerInput = () => {
     select.addEventListener('change', (e) => {
         pais.region = e.target.value
@@ -22,7 +23,7 @@ const leerInput = () => {
     })
 }
 
-
+//FUNCION PARA OBTENER LOS DATOS DE LA API
 const mostrarDatos = async () => {
     try {
         const respuesta = await fetch('https://api.covid19api.com/summary')
@@ -37,21 +38,24 @@ const mostrarDatos = async () => {
     
 }
 
+//FUNCION PARA LLENAR EL SELECT CON EL NOMBRE DE LOS PAISES
 const llenarSelect = (info) => {
+    limpiarHtml()
     const fragmento = document.createDocumentFragment();
     if(info){
-        for(const paises of info ){
+    for(const paisess of info ){
             const option = document.createElement('OPTION')
-            option.value = paises.Country
-            option.textContent = paises.Country
+            option.value = paisess.Country
+            option.textContent = paisess.Country
+            option.classList.add('borrar')
             fragmento.appendChild(option)
         }
     }
     select.appendChild(fragmento)
 }
 
+//FUNCION PARA MOSTRAR EL CONTENIDO SOBRE LOS DATOS DEL COVID
 const mostrarContenido = (informacion) => {
-    
     const datosCovid =  informacion.find(element => {
         const { region } = pais;
         if(region){
@@ -59,8 +63,6 @@ const mostrarContenido = (informacion) => {
         }
         else return pais
     })
-
-    
     const nombrePais = document.createElement('P')
     nombrePais.textContent = datosCovid.Country
     nombrePais.classList.add('borrar')
@@ -90,36 +92,37 @@ const mostrarContenido = (informacion) => {
     contenedorInfo.appendChild(hijosInfo[3])
 }
 
+//FUNCION PARA QUE CUANDO CAMBIEN DE PAIS SE BORREN LOS DATOS ANTERIORES
 const limpiarHtml = () => {
     const borrar = document.querySelectorAll('.borrar')
     for(const hijos of borrar){
         hijos.remove()
     }
-}   
+}
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY29zbGFiYXQiLCJhIjoiY2txc2FxbW1kMXhscTJucXE2NTM4c2szMCJ9.j6Df4-XKHxM15g7wkSVG1A';
 
 document.addEventListener('DOMContentLoaded', () => {
     mostrarMapa()
 })
-
+//INFORMACION PARA EL MAPA
 let map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [-3, 40],
     zoom: 3
 })
-
+//FUNCION PARA OBTENER LOS DATOS DE LA API
 const mostrarDatosMapa = async () => {
     try {
         const dataMapa = await fetch('https://master-covid-19-api-laeyoung.endpoint.ainize.ai/jhu-edu/latest');
         const data = await dataMapa.json()
-        console.log(data)
         return data
     } catch (error) {
         console.log(error)
     }
 }
 
+//FUNCION PARA MOSTRAR EL MAAPA CON LOS MARKES EN CADA PAÍS QUE TENGA CASOS CONFIRMADOS
 const mostrarMapa = async () => {
     const datos = await mostrarDatosMapa()
     datos.forEach(marcador => {
@@ -134,8 +137,9 @@ const mostrarMapa = async () => {
         }
     });
 }
+
+//FUNCION PARA MOSTRAR LOS DATOS EN LOS MARKERS
 const infomarker = (info) => {
-    console.log(info)
     const {confirmed, deaths, recovered, countryregion} = info
     if(recovered){
     return `
