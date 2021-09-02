@@ -40,14 +40,17 @@ const mostrarDatos = async () => {
 
 //FUNCION PARA LLENAR EL SELECT CON EL NOMBRE DE LOS PAISES
 const llenarSelect = (info) => {
-    limpiarHtml()
+    const hijo = select.lastElementChild;
+    if(hijo.classList.contains('pais')){
+        return;
+    }
     const fragmento = document.createDocumentFragment();
     if(info){
     for(const paisess of info ){
             const option = document.createElement('OPTION')
             option.value = paisess.Country
-            option.textContent = paisess.Country
-            option.classList.add('borrar')
+            option.textContent = paisess.Country;
+            option.classList.add('pais')
             fragmento.appendChild(option)
         }
     }
@@ -77,7 +80,8 @@ const mostrarContenido = (informacion) => {
     
     
     const recuperados = document.createElement('P');
-    recuperados.textContent = datosCovid.TotalRecovered.toLocaleString('en-US')
+    if(recuperados.TotalRecovered <= 1)recuperados.textContent = datosCovid.TotalRecovered.toLocaleString('en-US')
+    else recuperados.textContent = 'Datos no encontrados.'
     recuperados.classList.add('borrar')
 
     
@@ -150,7 +154,7 @@ const infomarker = (info) => {
     }
     else{
         return `
-            Confirmados: ${confirmed.toLocaleString('es-ES')}   
+            Confirmados: ${confirmed.toLocaleString('es-ES')}      
             Muertes: ${deaths.toLocaleString('es-ES')}
             Recuperados: Datos no encontrados
         `
